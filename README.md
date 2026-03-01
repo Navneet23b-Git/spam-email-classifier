@@ -3,7 +3,7 @@
 A Machine Learning based Email Spam Detection web application built using Flask and deployed on Vercel.
 
 ## 🚀 Live Demo
-🔗 https://your-vercel-url.vercel.app
+🔗 [https://your-vercel-url.vercel.app](https://spam-email-classifier-taupe.vercel.app/)
 
 ---
 
