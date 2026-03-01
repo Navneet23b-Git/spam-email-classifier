@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Email Spam Detector</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f6f8;
+            text-align: center;
+            padding: 50px;
+        }
+
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            width: 500px;
+            margin: auto;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        textarea {
+            width: 100%;
+            height: 120px;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 25px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #3498db;
+            color: white;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .spam {
+            color: red;
+        }
+
+        .ham {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Email Spam Detection</h2>
+    <p>Enter your email text below:</p>
+
+    <textarea id="emailText" placeholder="Type your email here..."></textarea>
+    <br>
+    <button onclick="checkSpam()">Check</button>
+
+    <div id="result"></div>
+</div>
+
+<script>
+async function checkSpam() {
+    const text = document.getElementById("emailText").value;
+    const resultDiv = document.getElementById("result");
+
+    if (!text.trim()) {
+        alert("Please enter some text.");
+        return;
+    }
+
+    const response = await fetch("/predict", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ message: text })
+    });
+
+    const data = await response.json();
+
+    if (data.label === "SPAM") {
+        resultDiv.innerHTML = "🚨 This is SPAM!";
+        resultDiv.className = "spam";
+    } else {
+        resultDiv.innerHTML = "✅ This is HAM (Not Spam)";
+        resultDiv.className = "ham";
+    }
+}
+</script>
+
+</body>
+</html>
